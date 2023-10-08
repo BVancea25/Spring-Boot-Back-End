@@ -12,14 +12,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name="Users",
         uniqueConstraints = {
-        @UniqueConstraint(name = "user_email_unique",columnNames = "email")
+        @UniqueConstraint(name = "user_email_phone_unique",columnNames = {"email","phone"})
         }
 )
 public class User {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userID;
+    private Integer userID;
     @Column(name = "first_name")
     private String firstName;
 
@@ -33,6 +33,9 @@ public class User {
 
     @Column(name = "cv_path")
     private String cvPath;
+
+    @Column(name="phone")
+    private String phone;
 
 
 }

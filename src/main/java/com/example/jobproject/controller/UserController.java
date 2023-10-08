@@ -23,7 +23,7 @@ public class UserController {
 
 
     @GetMapping("/userById/{id}")
-    public User getUser(@PathVariable int id){
+    public User getUser(@PathVariable Integer id){
         return service.getUserById(id);
     }
 
@@ -43,8 +43,13 @@ public class UserController {
     }
 
     @DeleteMapping("/user/{id}")
-    public String deleteUser(@PathVariable int id){
+    public String deleteUser(@PathVariable Integer id){
         return String.valueOf(service.deleteUser(id));
+    }
+
+    @DeleteMapping("/user/cv/{id}")
+    public String deleteCV(@PathVariable int id){
+        return service.deleteCvOfUser(id);
     }
 
 }

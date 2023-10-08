@@ -83,11 +83,11 @@ public class UserService {
     }
 
 
-    public int deleteUser(int id){
+    public String deleteUser(Integer id){
         deleteCvOfUser(id);
-        repository.deleteByIdd(id);
+        repository.deleteById(id);
+        return "User "+id+" deleted!!!";
 
-        return id;
     }
 
     public User updateUser(User user){
@@ -96,6 +96,7 @@ public class UserService {
         existingUser.setLastName(user.getLastName());
         existingUser.setEmail(user.getEmail());
         existingUser.setCvPath(user.getCvPath());
+        existingUser.setPhone(user.getPhone());
         return repository.save(existingUser);
     }
 }

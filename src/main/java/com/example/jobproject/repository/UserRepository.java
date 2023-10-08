@@ -11,9 +11,4 @@ public interface UserRepository extends JpaRepository<User,Integer> {
 
     User findByLastName(String lastName);
 
-
-    @Modifying
-    @Transactional
-    @Query("DELETE from User where userID=:id")
-    int deleteByIdd(@Param("id") int id);
 }
