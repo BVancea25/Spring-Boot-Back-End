@@ -20,8 +20,8 @@ public class Job {
     private Integer jobId;
 
     @ManyToOne
-    @JoinColumn(name = "employer_id")
-    private Employer employer;
+    @JoinColumn(name = "user_id")
+    private User user;
 
 
 

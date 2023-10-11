@@ -37,7 +37,7 @@ public class EmployerService {
     }
 
     public Employer updateEmployer(Employer employer){
-        Employer targetEmployer=repository.findById(employer.getEmployerId()).orElse(null);
+        Employer targetEmployer=repository.findById(employer.getUserID()).orElse(null);
         targetEmployer.setCompanyDescription(employer.getCompanyDescription());
         targetEmployer.setCompanyName(employer.getCompanyName());
         targetEmployer.setCUI(employer.getCUI());

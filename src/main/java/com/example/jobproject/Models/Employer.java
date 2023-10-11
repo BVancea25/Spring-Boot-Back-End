@@ -5,16 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "Employer")
+@Entity()
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Employers",uniqueConstraints = {@UniqueConstraint(name = "unique_cui",columnNames = "cui")})
-public class Employer {
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    private Integer employerId;
+@Table(name = "employer_details")
+@DiscriminatorValue("EMPLOYER")
+public class Employer extends User {
 
     @Column(name = "company_name")
     private String companyName;

@@ -29,7 +29,7 @@ public class JobService {
 
     public Job saveJob(Job job,Integer employerId){
         Employer employer=employerRepository.findById(employerId).orElse(null);
-        job.setEmployer(employer);
+        job.setUser(employer);
         job.setDate(new Date());
         return repository.save(job);
 

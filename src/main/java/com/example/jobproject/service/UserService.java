@@ -78,8 +78,8 @@ public class UserService {
         return repository.findById(id).orElse(null);
     }
 
-    public User getUserByLastName(String lastName){
-        return repository.findByLastName(lastName);
+    public User getUserByLastName(String email){
+        return repository.findByEmail(email).orElse(null);
     }
 
 
