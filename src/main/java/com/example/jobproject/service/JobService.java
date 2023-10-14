@@ -38,6 +38,7 @@ public class JobService {
 
     public Job updateJob(Job job){
         Job targetJob=repository.findById(job.getJobId()).orElse(null);
+        assert targetJob != null;
         targetJob.setJobDescription(job.getJobDescription());
         targetJob.setJobTitle(job.getJobTitle());
         targetJob.setDate(job.getDate());
