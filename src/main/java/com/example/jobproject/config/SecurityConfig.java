@@ -1,10 +1,11 @@
 package com.example.jobproject.config;
 
+import com.example.jobproject.Models.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,6 +14,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -25,19 +28,18 @@ public class SecurityConfig {
     @Primary
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception{
-       http
-               .csrf(AbstractHttpConfigurer::disable)
-               .authorizeHttpRequests()
-               .requestMatchers("")
-               .permitAll()
-               .anyRequest()
-               .authenticated()
-               .and()
-               .sessionManagement()
-               .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-               .and()
-               .authenticationProvider(authenticationProvider)
-               .addFilterBefore(jwtAuthFilter,UsernamePasswordAuthenticationFilter.class);
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(req ->
+                        req.requestMatchers("/auth/**")
+                                .permitAll()
+                                .requestMatchers(HttpMethod.POST,"/job").hasAuthority("EMPLOYER")
+                                .anyRequest()
+                                .authenticated()
+                )
+                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+                .authenticationProvider(authenticationProvider)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

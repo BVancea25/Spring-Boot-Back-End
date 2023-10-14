@@ -2,6 +2,7 @@ package com.example.jobproject.Models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,10 +22,7 @@ import java.util.List;
         @UniqueConstraint(name = "user_email_phone_unique",columnNames = {"email","phone"})
         }
 )
-@DiscriminatorColumn(name="role",
-        discriminatorType = DiscriminatorType.STRING)
-@DiscriminatorValue("USER")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Builder
 public class User implements UserDetails {
     @Id
     @Column(name = "id")
@@ -47,10 +45,15 @@ public class User implements UserDetails {
     @Column(name="phone")
     private String phone;
 
-    @Column(name = "role",insertable = false,updatable = false)
+    @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(name = "CUI")
+    private String CUI;
+
+    @Column(name = "company_name")
+    private String companyName;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -1,9 +1,9 @@
 package com.example.jobproject.service;
 
-import com.example.jobproject.Models.Employer;
 import com.example.jobproject.Models.Job;
-import com.example.jobproject.repository.EmployerRepository;
+import com.example.jobproject.Models.User;
 import com.example.jobproject.repository.JobRepository;
+import com.example.jobproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ public class JobService {
     private JobRepository repository;
 
     @Autowired
-    private EmployerRepository employerRepository;
+    private UserRepository userRepository;
 
     public List<Job> getJobs(){
         return repository.findAll();
@@ -28,7 +28,8 @@ public class JobService {
     }
 
     public Job saveJob(Job job,Integer employerId){
-        Employer employer=employerRepository.findById(employerId).orElse(null);
+        User employer=userRepository.findById(employerId).orElse(null);
+
         job.setUser(employer);
         job.setDate(new Date());
         return repository.save(job);

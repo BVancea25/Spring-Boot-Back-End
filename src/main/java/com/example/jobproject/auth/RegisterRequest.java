@@ -1,5 +1,6 @@
 package com.example.jobproject.auth;
 
+import com.example.jobproject.Models.Role;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
