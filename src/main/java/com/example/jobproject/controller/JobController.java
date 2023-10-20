@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class JobController {
     @Autowired
@@ -18,8 +19,8 @@ public class JobController {
         return service.getJobs();
     }
 
-    @GetMapping("/jobById/{id}")
-    public Job getJob(@PathVariable Integer id){
+    @GetMapping("/job/{id}")
+    public Job getJob(@PathVariable("id") Integer id){
         return service.getJob(id);
     }
 
@@ -33,10 +34,10 @@ public class JobController {
         return service.saveJob(job,employerId);
     }
 
-    @DeleteMapping("/job/{id}")
-    public String deleteJob(@PathVariable Integer id){
-        return service.deleteJob(id);
-    }
+    //@DeleteMapping("/job/{id}")
+    //public String deleteJob(@PathVariable Integer id){
+        //return service.deleteJob(id);
+    //}
 
 
 

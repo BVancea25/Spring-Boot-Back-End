@@ -3,9 +3,11 @@ package com.example.jobproject.controller;
 import com.example.jobproject.Models.Application;
 import com.example.jobproject.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 @RestController
 public class ApplicationController {
@@ -23,9 +25,10 @@ public class ApplicationController {
         return service.getApplications();
     }
 
-    @PutMapping("/application")
-    public Application postApplication(@RequestBody Application application,@RequestParam Integer userId,@RequestParam Integer jobId){
-        return service.saveApplication(application,userId,jobId);
+
+    @PostMapping(value="/application")
+    public Application postApplication(@RequestBody Application application,@RequestParam Integer jobId){
+        return service.saveApplication(application,jobId);
     }
 
     @DeleteMapping("/application/{id}")

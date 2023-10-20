@@ -55,6 +55,8 @@ public class User implements UserDetails {
     @Column(name = "company_name")
     private String companyName;
 
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

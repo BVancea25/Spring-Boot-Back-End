@@ -7,6 +7,8 @@ import com.example.jobproject.repository.ApplicationRepository;
 import com.example.jobproject.repository.JobRepository;
 import com.example.jobproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -31,8 +33,10 @@ public class ApplicationService {
         return repository.findById(id).orElse(null);
     }
 
-    public Application saveApplication(Application application,Integer userId,Integer jobId){
-        User user=userRepository.findById(userId).orElse(null);
+    public Application saveApplication(Application application,Integer jobId){
+        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+        String email=auth.getName();
+        User user=userRepository.findByEmail(email).orElse(null);
         Job job=jobRepository.findById(jobId).orElse(null);
         application.setUser(user);
         application.setJob(job);

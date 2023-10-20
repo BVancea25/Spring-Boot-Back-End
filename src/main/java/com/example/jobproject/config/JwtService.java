@@ -33,6 +33,7 @@ public class JwtService {
     }
 
     public String generateJWT(Map<String,Object> extraClaims, UserDetails userDetails){
+        System.out.println(userDetails);
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
