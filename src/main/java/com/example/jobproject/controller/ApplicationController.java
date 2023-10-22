@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class ApplicationController {
     @Autowired
@@ -26,8 +26,8 @@ public class ApplicationController {
     }
 
 
-    @PostMapping(value="/application")
-    public Application postApplication(@RequestBody Application application,@RequestParam Integer jobId){
+    @PostMapping(value="/application/{id}",consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public Application postApplication(@RequestBody Application application,@PathVariable("id") Integer jobId){
         return service.saveApplication(application,jobId);
     }
 
