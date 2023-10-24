@@ -7,6 +7,7 @@ import com.example.jobproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,18 +42,25 @@ public class AuthenticationService {
          userRepository.save(user);
         System.out.println(user.getAuthorities());
          var jwtToken=jwtService.generateJWT(user);
-         return AuthenticationResponse.builder().jwt(jwtToken).build();
+        String userRole= user.getAuthorities().toString();
+         return AuthenticationResponse.builder().role(userRole).jwt(jwtToken).build();
     }
+
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword())
         );
-        //corecte
+
         var user=userRepository.findByEmail(request.getEmail()).orElseThrow();
         System.out.println(user.getAuthorities());
         var jwtToken=jwtService.generateJWT(user);
-        return AuthenticationResponse.builder().jwt(jwtToken).build();
+        String userRole= user.getAuthorities().toString();
+        return AuthenticationResponse
+                .builder()
+                .jwt(jwtToken)
+                .role(userRole)
+                .build();
     }
 
     private Role seeRole(String role){

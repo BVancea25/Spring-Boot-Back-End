@@ -14,6 +14,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -50,9 +51,11 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET,"/job")
                                 .permitAll()
                                 .requestMatchers(HttpMethod.POST,"/application").hasAuthority("USER")
+
                                 .anyRequest()
                                 .authenticated()
                 )
+                .logout(LogoutConfigurer::permitAll)
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterAfter(corsFilter, UsernamePasswordAuthenticationFilter.class)
