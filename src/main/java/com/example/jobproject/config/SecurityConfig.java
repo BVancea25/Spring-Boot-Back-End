@@ -18,6 +18,7 @@ import org.springframework.security.config.annotation.web.configurers.LogoutConf
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -51,14 +52,13 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET,"/job")
                                 .permitAll()
                                 .requestMatchers(HttpMethod.POST,"/application").hasAuthority("USER")
-
                                 .anyRequest()
                                 .authenticated()
                 )
-                .logout(LogoutConfigurer::permitAll)
+                .logout((logout)->logout.logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler()))
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)
-                .addFilterAfter(corsFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
