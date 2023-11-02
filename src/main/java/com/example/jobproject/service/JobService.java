@@ -2,9 +2,12 @@ package com.example.jobproject.service;
 
 import com.example.jobproject.Models.Job;
 import com.example.jobproject.Models.User;
+import com.example.jobproject.dao.JobDao;
 import com.example.jobproject.repository.JobRepository;
 import com.example.jobproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -19,8 +22,17 @@ public class JobService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private JobDao customJobDao;
+
     public List<Job> getJobs(){
         return repository.findAll();
+    }
+
+    public List<Job> getEmployerJobs(){
+        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+        String email=auth.getName();
+        return customJobDao.findJobsByEmployerEmail(email);
     }
 
     public Job getJob(Integer id){
@@ -35,6 +47,7 @@ public class JobService {
         return repository.save(job);
 
     }
+
 
     public Job updateJob(Job job){
         Job targetJob=repository.findById(job.getJobId()).orElse(null);

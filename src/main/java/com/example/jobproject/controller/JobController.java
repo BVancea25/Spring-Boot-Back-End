@@ -24,6 +24,10 @@ public class JobController {
         return service.getJob(id);
     }
 
+    @GetMapping("/jobs")
+    public List<Job> getEmployersJobs(){
+        return service.getEmployerJobs();
+    }
     @PutMapping("/job")
     public Job updateJob(@RequestBody Job job){
         return service.updateJob(job);
