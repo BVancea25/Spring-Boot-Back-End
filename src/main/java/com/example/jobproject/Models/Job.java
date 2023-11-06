@@ -1,5 +1,6 @@
 package com.example.jobproject.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,8 +23,6 @@ public class Job {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
-
 
    @Column(name = "title")
     private String jobTitle;

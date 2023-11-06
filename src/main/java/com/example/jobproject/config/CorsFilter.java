@@ -16,13 +16,14 @@ public class CorsFilter extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
     @Override
     protected void doFilterInternal(@Nonnull HttpServletRequest request,@Nonnull HttpServletResponse response, @Nonnull FilterChain filterChain) throws IOException, ServletException {
-        logger.info(request.getMethod()+" "+request.getPathInfo());
+        //logger.info(request.getMethod()+" "+request.getPathInfo());
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "authorization, content-type, xsrf-token,Authorization");
         response.addHeader("Access-Control-Expose-Headers", "xsrf-token");
-        if ("OPTIONS".equals(request.getMethod())) {
+        //System.out.println(request.getServletPath());
+        if ("OPTIONS".equals(request.getMethod()) || "/logout".equals(request.getServletPath())) {
             response.setStatus(HttpServletResponse.SC_OK);
         } else {
             filterChain.doFilter(request, response);

@@ -44,6 +44,7 @@ public class SecurityConfig {
         http
 
                 .csrf(AbstractHttpConfigurer::disable)
+                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(req ->
                         req.requestMatchers("/auth/**")
                                 .permitAll()
@@ -56,10 +57,13 @@ public class SecurityConfig {
                                 .anyRequest()
                                 .authenticated()
                 )
-                .logout((logout)->logout.logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler()))
+                .logout((logout)->
+                        logout.logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
+                                .permitAll()
+
+                )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

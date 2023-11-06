@@ -3,9 +3,15 @@ package com.example.jobproject.service;
 import com.example.jobproject.Models.Application;
 import com.example.jobproject.Models.Job;
 import com.example.jobproject.Models.User;
+import com.example.jobproject.config.SecurityConfig;
+import com.example.jobproject.dao.ApplicationDao;
+import com.example.jobproject.dto.UserApplicationJobDTO;
 import com.example.jobproject.repository.ApplicationRepository;
 import com.example.jobproject.repository.JobRepository;
 import com.example.jobproject.repository.UserRepository;
+import jakarta.persistence.Tuple;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,7 +29,10 @@ public class ApplicationService {
     @Autowired
     private JobRepository jobRepository;
 
+    @Autowired
+    private ApplicationDao applicationDao;
 
+    private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 
     public List<Application> getApplications(){
         return repository.findAll();
@@ -33,9 +42,16 @@ public class ApplicationService {
         return repository.findById(id).orElse(null);
     }
 
+    public List<UserApplicationJobDTO> getApplicationsOfUser(){
+        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+        String email=auth.getName();
+        return applicationDao.findApplicationsByUser(email);
+    }
+
     public Application saveApplication(Application application,Integer jobId){
         Authentication auth= SecurityContextHolder.getContext().getAuthentication();
         String email=auth.getName();
+        //logger.info(email);
         User user=userRepository.findByEmail(email).orElse(null);
         Job job=jobRepository.findById(jobId).orElse(null);
         application.setUser(user);

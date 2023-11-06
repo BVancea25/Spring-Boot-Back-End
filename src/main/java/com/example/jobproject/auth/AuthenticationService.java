@@ -40,7 +40,7 @@ public class AuthenticationService {
                  .companyName(request.getCompanyName())
                  .build();
          userRepository.save(user);
-        System.out.println(user.getAuthorities());
+        //System.out.println(user.getAuthorities());
          var jwtToken=jwtService.generateJWT(user);
         String userRole= user.getAuthorities().toString();
          return AuthenticationResponse.builder().role(userRole).jwt(jwtToken).build();
@@ -53,7 +53,7 @@ public class AuthenticationService {
         );
 
         var user=userRepository.findByEmail(request.getEmail()).orElseThrow();
-        System.out.println(user.getAuthorities());
+        //System.out.println(user.getAuthorities());
         var jwtToken=jwtService.generateJWT(user);
         String userRole= user.getAuthorities().toString();
         return AuthenticationResponse
