@@ -39,8 +39,10 @@ public class JobService {
         return repository.findById(id).orElse(null);
     }
 
-    public Job saveJob(Job job,Integer employerId){
-        User employer=userRepository.findById(employerId).orElse(null);
+    public Job saveJob(Job job){
+        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+        String email=auth.getName();
+        User employer=userRepository.findByEmail(email).orElse(null);
 
         job.setUser(employer);
         job.setDate(new Date());

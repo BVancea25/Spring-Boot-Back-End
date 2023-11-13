@@ -10,13 +10,15 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import jakarta.servlet.FilterChain;
 
 import java.io.IOException;
+import java.util.Enumeration;
 
 @Component
 public class CorsFilter extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
     @Override
     protected void doFilterInternal(@Nonnull HttpServletRequest request,@Nonnull HttpServletResponse response, @Nonnull FilterChain filterChain) throws IOException, ServletException {
-        //logger.info(request.getMethod()+" "+request.getPathInfo());
+
+        logger.info(request.getMethod()+" "+request.getHeader("Authorization"));
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         response.setHeader("Access-Control-Max-Age", "3600");

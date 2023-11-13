@@ -33,15 +33,15 @@ public class JobController {
         return service.updateJob(job);
     }
 
-    @PostMapping(value="/job", consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public Job addJob(@RequestBody Job job,@RequestParam Integer employerId){
-        return service.saveJob(job,employerId);
+    @PostMapping(value="/job")
+    public Job addJob(@RequestBody Job job){
+        return service.saveJob(job);
     }
 
-    //@DeleteMapping("/job/{id}")
-    //public String deleteJob(@PathVariable Integer id){
-        //return service.deleteJob(id);
-    //}
+    @DeleteMapping("/job/{id}")
+    public String deleteJob(@PathVariable Integer id){
+        return service.deleteJob(id);
+    }
 
 
 

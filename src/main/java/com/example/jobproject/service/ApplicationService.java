@@ -5,6 +5,8 @@ import com.example.jobproject.Models.Job;
 import com.example.jobproject.Models.User;
 import com.example.jobproject.config.SecurityConfig;
 import com.example.jobproject.dao.ApplicationDao;
+import com.example.jobproject.dto.EmployerApplicationDTO;
+import com.example.jobproject.dto.UserApplicationDTO;
 import com.example.jobproject.dto.UserApplicationJobDTO;
 import com.example.jobproject.repository.ApplicationRepository;
 import com.example.jobproject.repository.JobRepository;
@@ -32,6 +34,9 @@ public class ApplicationService {
     @Autowired
     private ApplicationDao applicationDao;
 
+
+
+
     private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 
     public List<Application> getApplications(){
@@ -46,6 +51,12 @@ public class ApplicationService {
         Authentication auth= SecurityContextHolder.getContext().getAuthentication();
         String email=auth.getName();
         return applicationDao.findApplicationsByUser(email);
+    }
+
+    public List<EmployerApplicationDTO> getApplicationsOfEmployer(){
+        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+        String email=auth.getName();
+        return applicationDao.findApplicationsByEmployer(email);
     }
 
     public Application saveApplication(Application application,Integer jobId){

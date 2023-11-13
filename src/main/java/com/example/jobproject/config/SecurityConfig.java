@@ -46,14 +46,17 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(req ->
-                        req.requestMatchers("/auth/**")
+                        req
+                                .requestMatchers("/auth/**")
                                 .permitAll()
                                 .requestMatchers(HttpMethod.GET,"/job/{id}")
                                 .permitAll()
                                 .requestMatchers(HttpMethod.GET,"/job")
                                 .permitAll()
+                                .requestMatchers(HttpMethod.DELETE,"/job/{id}").hasAuthority("EMPLOYER")
                                 .requestMatchers(HttpMethod.POST,"/application").hasAuthority("USER")
                                 .requestMatchers(HttpMethod.GET,"/jobs").hasAuthority("EMPLOYER")
+                                .requestMatchers(HttpMethod.GET,"/application/employer").hasAuthority("EMPLOYER")
                                 .anyRequest()
                                 .authenticated()
                 )
