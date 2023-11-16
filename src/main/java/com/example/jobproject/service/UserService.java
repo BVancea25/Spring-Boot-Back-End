@@ -31,7 +31,7 @@ public class UserService {
     }
 
     @SneakyThrows
-    public String saveCV(MultipartFile file, String firstName, String lastName) {
+    public String saveCV(MultipartFile file, String email) {
         try {
             if (file.isEmpty()) {
                 throw new IllegalArgumentException("File is empty");
@@ -41,7 +41,7 @@ public class UserService {
                 throw new IllegalArgumentException("Only PDF files are allowed");
             }
 
-            String fileName = "CV_" + firstName + "_" + lastName + ".pdf";
+            String fileName = "CV_" + email + ".pdf";
             Path targetLocation = fileStorageLocation.resolve(fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
@@ -70,33 +70,10 @@ public class UserService {
         }
     }
 
-    public List<User> getUsers(){
-        return repository.findAll();
-    }
 
     public User getUserById(int id){
         return repository.findById(id).orElse(null);
     }
 
-    public User getUserByLastName(String email){
-        return repository.findByEmail(email).orElse(null);
-    }
 
-
-    public String deleteUser(Integer id){
-        deleteCvOfUser(id);
-        repository.deleteById(id);
-        return "User "+id+" deleted!!!";
-
-    }
-
-    public User updateUser(User user){
-        User existingUser=repository.findById(user.getUserID()).orElse(null);
-        existingUser.setFirstName(user.getFirstName());
-        existingUser.setLastName(user.getLastName());
-        existingUser.setEmail(user.getEmail());
-        existingUser.setCvPath(user.getCvPath());
-        existingUser.setPhone(user.getPhone());
-        return repository.save(existingUser);
-    }
 }

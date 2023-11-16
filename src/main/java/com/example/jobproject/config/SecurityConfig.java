@@ -57,6 +57,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST,"/application").hasAuthority("USER")
                                 .requestMatchers(HttpMethod.GET,"/jobs").hasAuthority("EMPLOYER")
                                 .requestMatchers(HttpMethod.GET,"/application/employer").hasAuthority("EMPLOYER")
+                                .requestMatchers(HttpMethod.PUT,"/application/emplyoer/{id}").hasAuthority("EMPLOYER")
                                 .anyRequest()
                                 .authenticated()
                 )

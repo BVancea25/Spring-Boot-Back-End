@@ -39,6 +39,11 @@ public class ApplicationController {
         return service.saveApplication(application,jobId);
     }
 
+    @PutMapping("/application/employer")
+    public String updateApplicationStatus(@RequestBody Application application){
+        return service.updateApplication(application);
+    }
+
     @GetMapping("/application/employer")
     public List<EmployerApplicationDTO> getEmployerApplications(){
         return service.getApplicationsOfEmployer();

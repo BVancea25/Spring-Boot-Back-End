@@ -71,11 +71,15 @@ public class ApplicationService {
         return repository.save(application);
     }
 
-    public Application updateApplication(Application application){
-        Application targetApplication=repository.findById(application.getApplicationId()).orElse(null);
-        targetApplication.setStatus(application.getStatus());
-        targetApplication.setCoverLetter(application.getCoverLetter());
-        return repository.save(targetApplication);
+    public String updateApplication(Application application){
+        try{
+            Application targetApp=repository.findById(application.getApplicationId()).orElse(null);
+            targetApp.setStatus(application.getStatus());
+            repository.save(targetApp);
+            return "Status changed!";
+        }catch (Exception e){
+            throw  e;
+        }
     }
 
     public String deleteApplication(Integer id){

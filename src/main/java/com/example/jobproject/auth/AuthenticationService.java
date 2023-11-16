@@ -4,6 +4,7 @@ import com.example.jobproject.Models.Role;
 import com.example.jobproject.Models.User;
 import com.example.jobproject.config.JwtService;
 import com.example.jobproject.repository.UserRepository;
+import com.example.jobproject.service.UserService;
 import lombok.RequiredArgsConstructor;
 
 
@@ -12,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Objects;
 
@@ -23,22 +25,29 @@ public class AuthenticationService {
 
     private final UserRepository userRepository;
 
-
+    private final UserService userService;
     private final AuthenticationManager authenticationManager;
 
 
     private final JwtService jwtService;
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthenticationResponse register(RegisterRequest request, MultipartFile cv) {
+        String path="";
+        try {
+            path=userService.saveCV(cv, request.getEmail());
+        }catch (Exception e){
 
+        }
          var user= User.builder()
                  .firstName(request.getFirstName())
                  .lastName(request.getLastName())
                  .email(request.getEmail())
                  .phone(request.getPhone())
+                 .cvPath(path)
                  .role(seeRole(request.getRole()))
                  .password(passwordEncoder.encode(request.getPassword()))
                  .companyName(request.getCompanyName())
                  .build();
+
          userRepository.save(user);
         //System.out.println(user.getAuthorities());
          var jwtToken=jwtService.generateJWT(user);
