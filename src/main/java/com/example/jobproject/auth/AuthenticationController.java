@@ -1,6 +1,8 @@
 package com.example.jobproject.auth;
 
 import com.example.jobproject.config.SecurityConfig;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 
 import org.slf4j.Logger;
@@ -19,10 +21,11 @@ public class AuthenticationController {
 
     private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
     private final AuthenticationService service;
-    @PostMapping(value="/register",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<AuthenticationResponse> register(@RequestPart RegisterRequest request, @RequestParam MultipartFile cv, @RequestHeader HttpHeaders headers){
-        logger.info(String.valueOf(headers));
-        return ResponseEntity.ok(service.register(request,cv));
+    @PostMapping(value="/register",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE,MediaType.APPLICATION_PDF_VALUE})
+    public ResponseEntity<String> register(@RequestParam String jsonRequest, @RequestPart MultipartFile cv) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        RegisterRequest registerRequest = objectMapper.readValue(jsonRequest, RegisterRequest.class);
+        return ResponseEntity.ok(service.register(registerRequest,cv));
     }
 
     @PostMapping("/authenticate")

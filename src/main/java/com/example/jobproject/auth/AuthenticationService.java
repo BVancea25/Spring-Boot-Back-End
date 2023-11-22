@@ -30,7 +30,7 @@ public class AuthenticationService {
 
 
     private final JwtService jwtService;
-    public AuthenticationResponse register(RegisterRequest request, MultipartFile cv) {
+    public String register(RegisterRequest request, MultipartFile cv) {
         String path="";
         try {
             path=userService.saveCV(cv, request.getEmail());
@@ -50,9 +50,7 @@ public class AuthenticationService {
 
          userRepository.save(user);
         //System.out.println(user.getAuthorities());
-         var jwtToken=jwtService.generateJWT(user);
-        String userRole= user.getAuthorities().toString();
-         return AuthenticationResponse.builder().role(userRole).jwt(jwtToken).build();
+         return "registered";
     }
 
 

@@ -1,6 +1,7 @@
 package com.example.jobproject.service;
 
 import com.example.jobproject.Models.User;
+import com.example.jobproject.dao.EmailDao;
 import com.example.jobproject.repository.UserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
@@ -15,12 +16,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class UserService {
 
     private final Path fileStorageLocation= Paths.get("src/main/resources/files");
+    @Autowired
+    private EmailDao emailDao;
 
 
 
@@ -49,6 +53,11 @@ public class UserService {
         } catch (IOException ex) {
             throw new IOException("Could not store file", ex);
         }
+    }
+
+    public List<String> getAllEmails(){
+
+        return emailDao.getAllEmails();
     }
 
     public String deleteCvOfUser(int id){

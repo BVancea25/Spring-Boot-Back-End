@@ -18,13 +18,16 @@ public class CorsFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(@Nonnull HttpServletRequest request,@Nonnull HttpServletResponse response, @Nonnull FilterChain filterChain) throws IOException, ServletException {
 
-        logger.info(request.getMethod()+" "+request.getHeader("Authorization"));
-        response.setHeader("Access-Control-Allow-Origin", "*");
+        //logger.info(request.getMethod()+" "+request.getHeader("Authorization"));
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "authorization, content-type, xsrf-token,Authorization");
         response.addHeader("Access-Control-Expose-Headers", "xsrf-token");
-        //System.out.println(request.getServletPath());
+        response.addHeader("Access-Control-Allow-Credentials","true");
+        //response.addHeader("Asta am primit",request.getContentType());
+        //logger.info(request.getContentType()+" "+request.getPart("cv").getContentType()+" "+request.getPart("request").getContentType());
+        //logger.info(String.valueOf(response.getStatus()));
         if ("OPTIONS".equals(request.getMethod()) || "/logout".equals(request.getServletPath())) {
             response.setStatus(HttpServletResponse.SC_OK);
         } else {

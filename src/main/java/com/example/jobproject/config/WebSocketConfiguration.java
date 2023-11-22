@@ -1,23 +1,28 @@
-//package com.example.jobproject.config;
-//
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.web.socket.WebSocketHandler;
-//import org.springframework.web.socket.config.annotation.EnableWebSocket;
-//import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
-//import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
-//
-//import java.io.IOException;
-//import java.util.logging.SocketHandler;
-//@Configuration
-//@EnableWebSocket
-//public class WebSocketConfiguration implements WebSocketConfigurer {
-//    @Override
-//    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-//        try {
-//            registry.addHandler((WebSocketHandler) new SocketHandler(),"/socket")
-//                    .setAllowedOrigins("*");
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-//}
+package com.example.jobproject.config;
+
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.session.web.socket.config.annotation.AbstractSessionWebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+
+@Configuration
+@EnableWebSocketMessageBroker
+public class WebSocketConfiguration extends AbstractSessionWebSocketMessageBrokerConfigurer {
+
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry config) {
+        config.enableSimpleBroker("/user");
+        config.setApplicationDestinationPrefixes("/app");
+        config.setUserDestinationPrefix("/user");
+    }
+
+    @Override
+    protected void configureStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
+        stompEndpointRegistry.addEndpoint("/ws").setAllowedOrigins("http://localhost:3000").withSockJS();
+    }
+
+
+}
+
