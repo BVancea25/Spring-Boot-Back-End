@@ -3,6 +3,7 @@ package com.example.jobproject.controller;
 
 import com.example.jobproject.Models.ChatMessage;
 import com.example.jobproject.config.SecurityConfig;
+import com.example.jobproject.repository.ChatMessageRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

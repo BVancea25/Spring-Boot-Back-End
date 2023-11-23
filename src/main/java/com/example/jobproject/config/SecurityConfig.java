@@ -2,6 +2,7 @@ package com.example.jobproject.config;
 
 
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,8 +67,14 @@ public class SecurityConfig {
                                 .authenticated()
                 )
                 .logout((logout)->
-                        logout.logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
+                        logout.logoutSuccessHandler(
+                                (httpServletRequest, httpServletResponse, authentication) -> {
+                                    httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+                                    System.out.println(httpServletRequest.getHeaderNames());
+                                    httpServletResponse.setHeader("Access-Control-Allow-Origin" , "http://localhost:3000");
+                                })
                                 .permitAll()
+
 
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))

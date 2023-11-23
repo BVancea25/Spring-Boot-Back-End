@@ -1,6 +1,8 @@
 package com.example.jobproject.controller;
 
 import com.example.jobproject.Models.Job;
+import com.example.jobproject.dto.JobDTO;
+import com.example.jobproject.dto.JobDetailsDTO;
 import com.example.jobproject.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -15,12 +17,12 @@ public class JobController {
     private JobService service;
 
     @GetMapping("/job")
-    public List<Job> getAllJobs(){
+    public List<JobDTO> getAllJobs(){
         return service.getJobs();
     }
 
     @GetMapping("/job/{id}")
-    public Job getJob(@PathVariable("id") Integer id){
+    public JobDetailsDTO getJob(@PathVariable("id") Integer id){
         return service.getJob(id);
     }
 
