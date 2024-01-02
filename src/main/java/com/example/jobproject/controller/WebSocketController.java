@@ -3,6 +3,7 @@ package com.example.jobproject.controller;
 
 import com.example.jobproject.Models.ChatMessage;
 import com.example.jobproject.config.SecurityConfig;
+import com.example.jobproject.dto.CallSignalDTO;
 import com.example.jobproject.repository.ChatMessageRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,4 +34,11 @@ public class WebSocketController {
 
         return chatMessage;
     }
+
+//    @MessageMapping("/call-signal")
+//    private void handleCallSignal(@Payload CallSignalDTO callSignal) {
+//        logger.info(callSignal.getSenderEmail()+" to "+callSignal.getReceiverEmail());
+//        simpMessagingTemplate.convertAndSendToUser(callSignal.getReceiverEmail(), "/call", callSignal);
+//    }
+
 }

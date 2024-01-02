@@ -58,6 +58,8 @@ public class SecurityConfig {
                                 .permitAll()
                                 .requestMatchers("/ws/**")
                                 .permitAll()
+                                .requestMatchers("/socket")
+                                .permitAll()
                                 .requestMatchers(HttpMethod.DELETE,"/job/{id}").hasAuthority("EMPLOYER")
                                 .requestMatchers(HttpMethod.POST,"/application").hasAuthority("USER")
                                 .requestMatchers(HttpMethod.GET,"/jobs").hasAuthority("EMPLOYER")
