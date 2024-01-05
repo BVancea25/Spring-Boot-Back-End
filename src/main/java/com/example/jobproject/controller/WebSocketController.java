@@ -25,20 +25,23 @@ public class WebSocketController {
 
     private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
     @MessageMapping("/private-message")
-    private ChatMessage receiveMessage(@Payload ChatMessage chatMessage){
-        chatMessageRepository.save(chatMessage);
+    private ChatMessage receiveMessage(@Payload ChatMessage chatMessage) {
+        try {
+            logger.info("Received message: {}", chatMessage.getMessage());
+            logger.info("From: {} to: {}", chatMessage.getSenderEmail(), chatMessage.getReceiverEmail());
 
-        logger.info(chatMessage.getMessage());
-        logger.info(chatMessage.getSenderEmail()+" to "+chatMessage.getReceiverEmail());
-        simpMessagingTemplate.convertAndSendToUser(chatMessage.getReceiverEmail(), "/private", chatMessage);
 
-        return chatMessage;
+            String destination = "/user/" + chatMessage.getReceiverEmail() + "/private";
+            logger.info("Sending to destination: {}", destination);
+
+            chatMessageRepository.save(chatMessage);
+            simpMessagingTemplate.convertAndSend(destination, chatMessage);
+
+            return chatMessage;
+        } catch (Exception e) {
+            logger.error("Error processing message", e);
+            throw e;
+        }
     }
-
-//    @MessageMapping("/call-signal")
-//    private void handleCallSignal(@Payload CallSignalDTO callSignal) {
-//        logger.info(callSignal.getSenderEmail()+" to "+callSignal.getReceiverEmail());
-//        simpMessagingTemplate.convertAndSendToUser(callSignal.getReceiverEmail(), "/call", callSignal);
-//    }
 
 }

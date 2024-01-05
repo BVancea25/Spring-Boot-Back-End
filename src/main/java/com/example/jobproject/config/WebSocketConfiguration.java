@@ -11,8 +11,8 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.config.annotation.*;
 
 @Configuration
-@EnableWebSocketMessageBroker
 @EnableWebSocket
+@EnableWebSocketMessageBroker
 public class WebSocketConfiguration extends AbstractSessionWebSocketMessageBrokerConfigurer implements WebSocketConfigurer {
     private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
     @Override
@@ -32,6 +32,8 @@ public class WebSocketConfiguration extends AbstractSessionWebSocketMessageBroke
 
         registry.addHandler(new SignalingWebSocketHandler(), "/socket").setAllowedOrigins("http://localhost:3000");
     }
+
+
 
 
 

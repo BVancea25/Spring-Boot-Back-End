@@ -23,6 +23,7 @@ public class JobService {
 
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private JobDao jobDao;
 
